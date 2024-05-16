@@ -1,3 +1,14 @@
+/**
+ * @file GaussianNoiseGenerator.hpp
+ * @author Sandip Das (sd13535@outlook.com)
+ * @brief Header class containing methods that uses Cholesky Decomposition to generate 2D Gaussian Noise of a given Covariance matrix with mean (0, 0)
+ * @version 0.1
+ * @date 2024-05-13
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
+
 #pragma once
 
 #include <vector>

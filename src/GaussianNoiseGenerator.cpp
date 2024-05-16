@@ -1,3 +1,14 @@
+/**
+ * @file GaussianNoiseGenerator.cpp
+ * @author Sandip Das (sd13535@outlook.com)
+ * @brief Source file that implements the class containing member functions to generate 2D Gaussian Noise of given Covariance Matrix and mean (0, 0) using Cholesky Decomposition
+ * @version 0.1
+ * @date 2024-05-13
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
+
 #include <noisy_turtle_playback/GaussianNoiseGenerator.hpp>
 #include <cmath>
 #include <tuple>
