@@ -1,0 +1,6 @@
+odom_topic_name: '/odom'
+queue_size: 100
+vel_pub_topic_name: 'noisy/cmd_vel/'
+var_lin_x: 0.34
+var_ang_z: 0.55
+covariance: 0.25

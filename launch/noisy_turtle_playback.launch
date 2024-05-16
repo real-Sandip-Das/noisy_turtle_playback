@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<launch>
+    <node name="noisy_turtle_playback" pkg="noisy_turtle_playback" type="noisy_turtle_playback" output="screen">
+        <rosparam command="load" file="$(find noisy_turtle_playback)/config/config.yaml" />
+    </node>
+</launch>
