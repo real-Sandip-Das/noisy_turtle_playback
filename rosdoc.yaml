@@ -1,0 +1,7 @@
+- builder: doxygen
+  required: True
+  file_patterns: '*.c *.cpp *.h *.hpp *.dox *.md'
+  exclude_patterns: '*/test/*'
+  generate_treeview: 'YES'
+  use_mdfile_as_mainpage: README.md
+  include_path: 'include/noisy_turtle_playback/'
