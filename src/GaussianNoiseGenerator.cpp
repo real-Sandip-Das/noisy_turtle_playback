@@ -27,7 +27,50 @@ std::pair<double, double> GaussianNoiseGenerator::generateGaussianNoise()
 {
   double x, y;
   std::tie(x, y) = biVariateStandardNormal();
-  /** @todo: add mathematical explanation for these steps */
+  /**
+   * If we know the Cholesky Decomposition of the Covariance Matrix (let, \f$\Sigma = LL^{\mathsf{T}}\f$)
+   * 
+   * We can use it to generate samples of a Gaussian Distribution of any Covariance Matrix
+   * from samples of a Standard Normal Distribution
+   * 
+   * Finding out the Cholesky decomposition of a general 2D Covariance Matrix:
+   * 
+   * let, \f[ \Sigma = A^{(1)} = \begin{pmatrix} \sigma_{xx} && \sigma_{xy} \\ \sigma_{xy} && \sigma_{yy} \end{pmatrix} \f]
+   * 
+   * (assuming \f$ \sigma_{xx} \f$ and \f$ \sigma_{yy} \f$ are the variances of \f$ x \f$ and \f$ y \f$ respectively)
+   * 
+   * Clearly,
+   * \f[
+   * L_1 = \begin{pmatrix} \sqrt{\sigma_{xx}} && 0 \\ \frac{\sigma_{xy}}{\sqrt{\sigma_{xx}}} && 1 \end{pmatrix}
+   * \f]
+   * 
+   * \f[
+   * A^{(2)} = L_1^{-1}A^{(1)}(L_1^T)^{-1} = \begin{pmatrix} \frac{1}{\sqrt{\sigma_{xx}}} && 0 \\ -\frac{\sigma_{xy}}{\sigma_{xx}} && 1 \end{pmatrix} \begin{pmatrix} \sigma_{xx} && \sigma_{xy} \\ \sigma_{xy} && \sigma_{yy} \end{pmatrix} \begin{pmatrix} \frac{1}{\sqrt{\sigma_{xx}}} && -\frac{\sigma_{xy}}{\sigma_{xx}} \\ 0 && 1 \end{pmatrix}
+   * \f]
+   * \f[
+   * = \begin{pmatrix} 1 && 0 \\ 0 && -\frac{\sigma_{xy}^2}{\sigma_{xx}}+\sigma_{yy} \end{pmatrix}
+   * \f]
+   * 
+   * \f[
+   * L_2 = \begin{pmatrix} 1 && 0 \\ 0 && \sqrt{-\frac{\sigma_{xy}^2}{\sigma_{xx}}+\sigma_{yy}} \end{pmatrix}
+   * \f]
+   * 
+   * \f[
+   * L = L_1L_2 = \begin{pmatrix} \sqrt{\sigma_{xx}} && 0 \\ \frac{\sigma_{xy}}{\sqrt{\sigma_{xx}}} && \sqrt{-\frac{\sigma_{xy}^2}{\sigma_{xx}}+\sigma_{yy}} \end{pmatrix}
+   * \f]
+   * 
+   * \f[
+   * \therefore \Sigma = LL^\mathsf{T}
+   * \f]
+   * 
+   * Now that we have found out the Cholesky Decomposition, in order to generate Gaussian Noise of Covariance Matrix \f$\Sigma\f$,
+   * from independent samples \f$X\sim\mathcal{N}(0,1),Y\sim\mathcal{N}(0,1)\f$, we need to multiply:
+   * 
+   * \f[
+   * \begin{pmatrix}X' \\ Y'\end{pmatrix} = L\begin{pmatrix} X \\ Y\end{pmatrix} = \begin{pmatrix} \sqrt{\sigma_{xx}} x \\ \frac{\sigma_{xy}}{\sqrt{\sigma_{xx}}} x+\sqrt{-\frac{\sigma_{xy}^2}{\sigma_{xx}}+\sigma_{yy}} y\end{pmatrix}\sim\mathcal{N}(\mathbf{0},\Sigma)
+   * \f]
+   * 
+   */
   double x1 = std::sqrt(var_x_)*x;
   double y1 = (cov_xy_*x)/std::sqrt(var_x_)+std::sqrt(var_y_-(std::pow(cov_xy_, 2))/var_x_)*y;
   return std::make_pair(x1, y1);
